@@ -1,0 +1,14 @@
+<h1>result</h1>
+
+<% artistArray.forEach(artist => { %>
+    <p> <%= artist.name %> </p>
+
+    <% if (artist.images.length) {%> 
+        <img src=" <%= artist.images[0].url %>  " alt=""/>
+    <% } %>
+
+    <a href="">View Albums</a>
+ <% }) %>
+
+
+ 
