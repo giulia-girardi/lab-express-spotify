@@ -55,11 +55,60 @@ app.get('/', (req,res)=> {
 app.get('/artist-search', async (req, res)=> {
     const {artistName} = req.query;
     const listOfArtists = await spotifyApi.searchArtists(artistName)
-    console.log('The received data from the API: ', listOfArtists.body.artists.items);
+    //console.log('The received data from the API: ', listOfArtists.body.artists.items);
     const artistArray =  listOfArtists.body.artists.items
-    console.log(artistArray) 
+    //console.log(artistArray) 
     res.render('artist-search-result', {artistArray})
 })
+
+app.get('/albums/:artistId', async (req, res)=> {
+    const { artistId } = req.params
+    //console.log(artistId)
+    const listOfAlbums = await spotifyApi.getArtistAlbums(
+        artistId,
+        { limit: 10, offset: 20 },
+        /* function(err, data) {
+          if (err) {
+            console.error('Something went wrong!');
+          } else {
+            //console.log('data.body:', data.body);
+            const listOfAlbumsCleaned = (data.body.items)
+            //console.log('listOfAlbums:',listOfAlbums)
+          }
+          return listOfAlbumsCleaned
+        } */
+    ); 
+    //console.log(listOfAlbums)
+
+    const listOfAlbumsCleaned = (listOfAlbums.body.items)
+    //console.log(listOfAlbumsCleaned)
+    res.render('albums', {listOfAlbumsCleaned})
+});
+
+/* app.get('/tracks/:albumId', async (req, res)=> {
+    const { albumId } = req.params
+    console.log(albumId)
+    const listOfTracks = await spotifyApi.getArtistAlbums(
+        albumId,
+        { limit: 5, offset: 1 },
+        /* function(err, data) {
+          if (err) {
+            console.error('Something went wrong!');
+          } else {
+            //console.log('data.body:', data.body);
+            const listOfAlbumsCleaned = (data.body.items)
+            //console.log('listOfAlbums:',listOfAlbums)
+          }
+          return listOfAlbumsCleaned
+        } 
+    ); 
+    console.log(listOfTracks)
+
+    //const listOfAlbumsCleaned = (listOfAlbums.body.items)
+    //console.log(listOfAlbumsCleaned)
+    res.render('tracks')
+}) */
+
 
 
 
